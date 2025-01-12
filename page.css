@@ -35,49 +35,18 @@ body {
    margin-bottom: 10px;
    
 }
-/* Wrapper for the input and icon */
-.todo-input-wrapper {
-    display:flex;
-    align-items: center;
-    width: 100%; /* Adjust as needed */
-    border: 1px solid #ccc;
-    background-color: #fff;
-}
 
-/* Icon container */
+
 .icon-container {
-    width: 2%;
-    background-color: #0e8ec5; 
-    color: white; 
-    padding: 5px; 
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.2rem;
-    cursor: pointer; 
-    accent-color:#004280;
-    border-radius: 3px;  
-    margin-left: .5%;
-}
-
-.add-task-btn {
-    
-    width: 100%; /* Full width button */
-    background-color: #0096a9; /* Blue background */
+    background-color: #0e8ec5;
     color: white;
-    padding: 0.75rem;
-    border: none;
-    border-radius: 0.25rem;
-    font-size: 1rem;
-    cursor: pointer;
+    padding: 7.5px;
     text-align: center;
-    transition: background-color 0.3s ease;
-}
+    border-radius: 2px;
+    
+   }
 
-.add-task-btn:hover {
-    background-color: #007c8b; /* Darker shade of blue on hover */
-}
-
+/*-----------------*/
 
 .error-message {
     color: red;
@@ -113,12 +82,13 @@ body {
 .filters button:hover{
 
     background-color: #0a4a65;
+    box-shadow: 0 8px 8px rgba(0, 213, 255, 0.2);
     
 }
 .tasks-area {
     margin-left: 100px;
     margin-right: 100px;
-    max-height: 300px; 
+    max-height: 200px; 
     overflow-y: auto; 
     display: grid;
     grid-template-columns: 1fr;
@@ -196,6 +166,7 @@ margin-right: 20px;
 .delete-button:hover {
     color: #5d0505; 
 }
+
 
 /*------------------*/
 
