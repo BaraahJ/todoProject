@@ -41,6 +41,7 @@
             <button onclick="openDeleteDonePopup()">Delete done tasks</button>
             <button onclick="openDeleteAllPopup()">Delete all tasks</button>
         </div>
+        <div id="delete-error-message" class="error-message"></div>
     </div>
     
     <!-- Edit Popup Modal -->
@@ -88,7 +89,7 @@
    let todos = [];
    let editingIndex = null;
    let deletingIndex = null;
-
+   const errorMessage2 = document.getElementById('delete-error-message');
    function saveTodos() {
        localStorage.setItem('todos', JSON.stringify(todos));
    }
@@ -107,6 +108,8 @@
     const task = input.value.trim();
 
     errorMessage.textContent = '';
+    errorMessage2.textContent = '';
+
     if (task === '') {
     errorMessage.textContent = 'Task cannot be empty.';
     return;
@@ -119,9 +122,11 @@
     errorMessage.textContent = 'Task must be at least 5 characters long.';
     return;
     }
+
     todos.push({ text: task, completed: false });
     input.value = '';
     renderTodos();
+
 
     }
     function renderTodos(filter = 'all') {
@@ -178,6 +183,7 @@
 
     function toggleComplete(index) {
         todos[index].completed = !todos[index].completed;
+        errorMessage2.textContent = '';
         renderTodos();
     }
     function openEditPopup(index) {
@@ -223,8 +229,15 @@
     }
 
     function openDeleteDonePopup() {
+        const doneTasks = todos.filter(todo => todo.completed);
+         errorMessage2.textContent = '';
+        if (doneTasks.length === 0) {
+            errorMessage2.textContent = 'No completed tasks to delete.';
+            return;
+        }
         document.getElementById('delete-done-popup').style.display = 'flex';
     }
+
     function confirmDeleteDone() {
         todos = todos.filter(todo => !todo.completed);
         saveTodos();
@@ -233,6 +246,12 @@
     }
 
     function openDeleteAllPopup() {
+        
+        errorMessage2.textContent = '';
+        if (todos.length === 0) {
+            errorMessage2.textContent = 'No tasks to delete.';
+            return;
+        }
         document.getElementById('delete-all-popup').style.display = 'flex';
     }
 
