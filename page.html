@@ -9,6 +9,7 @@
 
     <link rel="stylesheet" href="page.css">
     <title>TODO LIST</title>
+    <link rel="icon" href="R.png">
 </head>
 <body>
 
@@ -16,6 +17,9 @@
 
         <h1>Todo Input</h1>
         <div class="todo-input">
+            <span class="icon-container">
+                <i class="fa-solid fa-book"></i>
+            </span>
             <input type="text" id="todo-input" placeholder="New Todo">
             <div id="error-message" class="error-message"></div>
             <button onclick="addtask()">Add Task</button>
@@ -80,177 +84,177 @@
         </div>
     </div>
 
-<script>
-   let todos = [];
-   let editingIndex = null;
-   let deletingIndex = null;
-
-   function saveTodos() {
-       localStorage.setItem('todos', JSON.stringify(todos));
-   }
-
-   function loadTodos() {
-       const storedTodos = localStorage.getItem('todos');
-       if (storedTodos) {
-           todos = JSON.parse(storedTodos);
-           renderTodos();
-       }
-   }
-
-    function addtask() {
-    const input = document.getElementById('todo-input');
-    const errorMessage = document.getElementById('error-message');
-    const task = input.value.trim();
-
-    if (task === '') {
-    errorMessage.textContent = 'Task cannot be empty.';
-    return;
-    }
-    if (!isNaN(task.charAt(0))) {
-    errorMessage.textContent = 'Task cannot start with a number.';
-    return;
-    }
-    if (task.length < 5) {
-    errorMessage.textContent = 'Task must be at least 5 characters long.';
-    return;
-    }
-    todos.push({ text: task, completed: false });
-    input.value = '';
-    renderTodos();
-
-    }
-    function renderTodos(filter = 'all') {
-        const list = document.getElementById('todo-list');
-        list.innerHTML = '';
-        let filteredTodos = todos;
-
-        if (filter === 'done') {
-            filteredTodos = todos.filter(todo => todo.completed);
-        } else if (filter === 'todo') {
-            filteredTodos = todos.filter(todo => !todo.completed);
+    <script>
+        let todos = [];
+        let editingIndex = null;
+        let deletingIndex = null;
+     
+        function saveTodos() {
+            localStorage.setItem('todos', JSON.stringify(todos));
         }
-
-        filteredTodos.forEach((todo, index) => {
-            const listItem = document.createElement('li');
-            listItem.className =` todo-item ${todo.completed ? 'completed' : ''}`;
-
-            const taskSpan = document.createElement('span');
-            taskSpan.textContent = todo.text;
-
-            const actionsDiv = document.createElement('div');
-            actionsDiv.className = 'todo-actions';
-
-            const completeCheckbox = document.createElement('input'); // Added checkbox for completion
-            completeCheckbox.type = 'checkbox'; // Checkbox type
-            completeCheckbox.checked = todo.completed; // Set checked state based on completion
-            completeCheckbox.onclick = () => toggleComplete(index);
-
-
-
-            const editButton = document.createElement('button');
-            editButton.innerHTML = "<i class='bx bxs-pencil'></i>"; // Edit icon
-            editButton.classList.add('edit-button'); // Add custom class for styling
-            editButton.onclick = () => openEditPopup(index);
-
-            const deleteButton = document.createElement('button');
-            deleteButton.innerHTML = "<i class='bx bxs-trash-alt'></i>"; // Delete icon
-            deleteButton.classList.add('delete-button'); // Add custom class for styling
-            deleteButton.onclick = () => openDeleteTaskPopup(index);
-
-
-
-            actionsDiv.appendChild(completeCheckbox);
-            actionsDiv.appendChild(editButton);
-            actionsDiv.appendChild(deleteButton);
-
-            listItem.appendChild(taskSpan);
-            listItem.appendChild(actionsDiv);
-
-            list.appendChild(listItem);
-            
-        });
-    }
-
-    function toggleComplete(index) {
-        todos[index].completed = !todos[index].completed;
-        renderTodos();
-    }
-    function openEditPopup(index) {
-        editingIndex = index;
-        document.getElementById('edit-input').value = todos[index].text;
-        document.getElementById('edit-popup').style.display = 'flex';
-    }
-
-
-    function saveEdit() {
-    const editInput = document.getElementById('edit-input');
-    const errorMessage = document.getElementById('edit-error-message');
-    const task = editInput.value.trim();
-
-    // Validate input when editing a task
-    if (task === '') {
-        errorMessage.textContent = 'Task cannot be empty.';
-        return;
-    }
-    if (!isNaN(task.charAt(0))) {
-        errorMessage.textContent = 'Task cannot start with a number.';
-        return;
-    }
-    if (task.length < 5) {
-        errorMessage.textContent = 'Task must be at least 5 characters long.';
-        return;
-    }
-
-    todos[editingIndex].text = task;
-    saveTodos();
-    closePopup();
-    renderTodos();
-    }
-    function openDeleteTaskPopup(index) {
-        deletingIndex = index;
-        document.getElementById('delete-task-popup').style.display = 'flex';
-    }
-    function deleteTask() {
-        todos.splice(deletingIndex, 1);
-        saveTodos();
-        closePopup();
-        renderTodos();
-    }
-
-    function openDeleteDonePopup() {
-        document.getElementById('delete-done-popup').style.display = 'flex';
-    }
-    function confirmDeleteDone() {
-        todos = todos.filter(todo => !todo.completed);
-        saveTodos();
-        renderTodos();
-        closePopup();
-    }
-
-    function openDeleteAllPopup() {
-        document.getElementById('delete-all-popup').style.display = 'flex';
-    }
-
-    function confirmDeleteAll() {
-        todos = [];
-        saveTodos();
-        renderTodos();
-        closePopup();
-    }
-
-
-    function closePopup() {
-        document.querySelectorAll('.popup').forEach(popup => {
-            popup.style.display = 'none';
-        });
-    }
-
-
-    function filterTodos(filter) {
-        renderTodos(filter);
-    }
-
-    document.getElementById('confirm-delete-btn').onclick = deleteTask;
-
-    window.onload = loadTodos;
-    </script>
+     
+        function loadTodos() {
+            const storedTodos = localStorage.getItem('todos');
+            if (storedTodos) {
+                todos = JSON.parse(storedTodos);
+                renderTodos();
+            }
+        }
+     
+         function addtask() {
+         const input = document.getElementById('todo-input');
+         const errorMessage = document.getElementById('error-message');
+         const task = input.value.trim();
+     
+         if (task === '') {
+         errorMessage.textContent = 'Task cannot be empty.';
+         return;
+         }
+         if (!isNaN(task.charAt(0))) {
+         errorMessage.textContent = 'Task cannot start with a number.';
+         return;
+         }
+         if (task.length < 5) {
+         errorMessage.textContent = 'Task must be at least 5 characters long.';
+         return;
+         }
+         todos.push({ text: task, completed: false });
+         input.value = '';
+         renderTodos();
+     
+         }
+         function renderTodos(filter = 'all') {
+             const list = document.getElementById('todo-list');
+             list.innerHTML = '';
+             let filteredTodos = todos;
+     
+             if (filter === 'done') {
+                 filteredTodos = todos.filter(todo => todo.completed);
+             } else if (filter === 'todo') {
+                 filteredTodos = todos.filter(todo => !todo.completed);
+             }
+     
+             filteredTodos.forEach((todo, index) => {
+                 const listItem = document.createElement('li');
+                 listItem.className =` todo-item ${todo.completed ? 'completed' : ''}`;
+     
+                 const taskSpan = document.createElement('span');
+                 taskSpan.textContent = todo.text;
+     
+                 const actionsDiv = document.createElement('div');
+                 actionsDiv.className = 'todo-actions';
+     
+                 const completeCheckbox = document.createElement('input'); // Added checkbox for completion
+                 completeCheckbox.type = 'checkbox'; // Checkbox type
+                 completeCheckbox.checked = todo.completed; // Set checked state based on completion
+                 completeCheckbox.onclick = () => toggleComplete(index);
+     
+     
+     
+                 const editButton = document.createElement('button');
+                 editButton.innerHTML = "<i class='bx bxs-pencil'></i>"; // Edit icon
+                 editButton.classList.add('edit-button'); // Add custom class for styling
+                 editButton.onclick = () => openEditPopup(index);
+     
+                 const deleteButton = document.createElement('button');
+                 deleteButton.innerHTML = "<i class='bx bxs-trash-alt'></i>"; // Delete icon
+                 deleteButton.classList.add('delete-button'); // Add custom class for styling
+                 deleteButton.onclick = () => openDeleteTaskPopup(index);
+     
+     
+     
+                 actionsDiv.appendChild(completeCheckbox);
+                 actionsDiv.appendChild(editButton);
+                 actionsDiv.appendChild(deleteButton);
+     
+                 listItem.appendChild(taskSpan);
+                 listItem.appendChild(actionsDiv);
+     
+                 list.appendChild(listItem);
+                 
+             });
+         }
+     
+         function toggleComplete(index) {
+             todos[index].completed = !todos[index].completed;
+             renderTodos();
+         }
+         function openEditPopup(index) {
+             editingIndex = index;
+             document.getElementById('edit-input').value = todos[index].text;
+             document.getElementById('edit-popup').style.display = 'flex';
+         }
+     
+     
+         function saveEdit() {
+         const editInput = document.getElementById('edit-input');
+         const errorMessage = document.getElementById('edit-error-message');
+         const task = editInput.value.trim();
+     
+         // Validate input when editing a task
+         if (task === '') {
+             errorMessage.textContent = 'Task cannot be empty.';
+             return;
+         }
+         if (!isNaN(task.charAt(0))) {
+             errorMessage.textContent = 'Task cannot start with a number.';
+             return;
+         }
+         if (task.length < 5) {
+             errorMessage.textContent = 'Task must be at least 5 characters long.';
+             return;
+         }
+     
+         todos[editingIndex].text = task;
+         saveTodos();
+         closePopup();
+         renderTodos();
+         }
+         function openDeleteTaskPopup(index) {
+             deletingIndex = index;
+             document.getElementById('delete-task-popup').style.display = 'flex';
+         }
+         function deleteTask() {
+             todos.splice(deletingIndex, 1);
+             saveTodos();
+             closePopup();
+             renderTodos();
+         }
+     
+         function openDeleteDonePopup() {
+             document.getElementById('delete-done-popup').style.display = 'flex';
+         }
+         function confirmDeleteDone() {
+             todos = todos.filter(todo => !todo.completed);
+             saveTodos();
+             renderTodos();
+             closePopup();
+         }
+     
+         function openDeleteAllPopup() {
+             document.getElementById('delete-all-popup').style.display = 'flex';
+         }
+     
+         function confirmDeleteAll() {
+             todos = [];
+             saveTodos();
+             renderTodos();
+             closePopup();
+         }
+     
+     
+         function closePopup() {
+             document.querySelectorAll('.popup').forEach(popup => {
+                 popup.style.display = 'none';
+             });
+         }
+     
+     
+         function filterTodos(filter) {
+             renderTodos(filter);
+         }
+     
+         document.getElementById('confirm-delete-btn').onclick = deleteTask;
+     
+         window.onload = loadTodos;
+         </script>
