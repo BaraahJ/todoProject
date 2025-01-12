@@ -84,7 +84,7 @@
         </div>
     </div>
 
-    <script>
+<script>
         let todos = [];
         let editingIndex = null;
         let deletingIndex = null;
@@ -121,7 +121,7 @@
          todos.push({ text: task, completed: false });
          input.value = '';
          renderTodos();
-     
+         saveTodos()
          }
          function renderTodos(filter = 'all') {
              const list = document.getElementById('todo-list');
@@ -178,6 +178,8 @@
          function toggleComplete(index) {
              todos[index].completed = !todos[index].completed;
              renderTodos();
+             saveTodos();
+
          }
          function openEditPopup(index) {
              editingIndex = index;
