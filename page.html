@@ -90,18 +90,21 @@
    let editingIndex = null;
    let deletingIndex = null;
    const errorMessage2 = document.getElementById('delete-error-message');
-   function saveTodos() {
-       localStorage.setItem('todos', JSON.stringify(todos));
-   }
+/*=======save and load the page =======*/
+        function saveTodos() {
+            localStorage.setItem('todos', JSON.stringify(todos));
+        }
 
-   function loadTodos() {
-       const storedTodos = localStorage.getItem('todos');
-       if (storedTodos) {
-           todos = JSON.parse(storedTodos);
-           renderTodos();
-       }
-   }
+        function loadTodos() {
+            const storedTodos = localStorage.getItem('todos');
+            if (storedTodos) {
+                todos = JSON.parse(storedTodos);
+                renderTodos();
+            }
+        }
 
+        window.onload = loadTodos;
+/*===================================*/
     function addtask() {
     const input = document.getElementById('todo-input');
     const errorMessage = document.getElementById('error-message');
@@ -125,6 +128,7 @@
 
     todos.push({ text: task, completed: false });
     input.value = '';
+    saveTodos(); 
     renderTodos();
 
 
@@ -184,7 +188,9 @@
     function toggleComplete(index) {
         todos[index].completed = !todos[index].completed;
         errorMessage2.textContent = '';
+        saveTodos(); 
         renderTodos();
+        
     }
     function openEditPopup(index) {
         editingIndex = index;
